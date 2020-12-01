@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="email_field">ألبريد ألألكتروني</string>
+    <string name="password_field">كلمة ألسر</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="forgot_password">نسيت كلمة ألسر؟</string>
+    <string name="register">تسجيل</string>
+    <string name="full_name">ألأسم ألكامل</string>
+    <string name="username">أسم المستخدم</string>
+    <string name="sign_up">تسجيل</string>
+    <string name="student">طالب</string>
+    <string name="teacher">معلم</string>
+    <string name="register_success">تم تسجيل المستخدم بنجاح!</string>
+    <string name="register_fail">فشل التسجيل! حاول مجددا!</string>
+    <string name="ok">حسنا</string>
+   <string name="next">ألتالي</string>
+    <string name="school_name">أسم المدرسة</string>
+    <string name="bdate">تاريخ الميلاد</string>
+    <string name="back">الرجوع</string>
+    <string name="write_post_or_a_question">أكتب منشورا اة أسال سؤال.</string>
+    <string name="what_do_you_want_to_say">ماذا تريد ان تقول؟</string>
+    <string name="button_sure_default">حسنا</string>
+    <string name="button_sure">حسنا(%1$d)</string>
+    <string-array name="occupations">
+        <item>طالب</item>
+        <item>معلم</item>
+        <item>طالب ومعلم</item>
+    </string-array>
+    <string-array name="warnings">
+        <item>ألرجاء أدخال ألاسم ألكامل!</item>
+        <item>ألرجاء أدخال ألبريد ألالكتروني!</item>
+        <item>ألرجاء أدخال بريد ألكتروني حقيقي!</item>
+        <item>ألرجاء أدخال كلمة ألسر!</item>
+        <item>كلمة ألسر قصيرة!</item>
+        <item>لم نجد حساب مسجل بهذا البريد الالكترةني!
+        الرجاء المحاولة مددداو اة انشاء حساب جديد.</item>
+        <item>كلمة ألسر خاطئة</item>
+        <item>ألرجاء ادخال اسم المستخدم</item>
+        <item>ألرجاء ادخال اسم مدرستك</item>
+    </string-array>
+    <string-array name="messages">
+        <item>تفقد بريدك الالكتروني لتاكيد حسابك</item>
+        <item>تفقد بريدك الالكتروني لتغيير كلمة السر.</item>
+        <item>هذا البريد الالكتروني مرتبط بحساب اخر</item>
+        <item>ألتاكد من اسم المستخدم...</item>
+        <item>أسم المستخدم غير صالح</item>
+        <item>صالح للاستخدام</item>
+        <item>أعادة ارسال رسالة التاكيد</item>
+    </string-array>
+    <string-array name="genders">
+        <item>ذكر</item>
+        <item>انثى</item>
+        <item>غير</item>
+    </string-array>
+
+</resources>

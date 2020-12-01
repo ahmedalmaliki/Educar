@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "852970505812",
+    "firebase_url": "https://educar-6609d.firebaseio.com",
+    "project_id": "educar-6609d",
+    "storage_bucket": "educar-6609d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852970505812:android:ebb2df55e0358dea0fcfc1",
+        "android_client_info": {
+          "package_name": "com.example.educar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852970505812-fhi853p647opgd75pr4oaa2680s9augj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.educar",
+            "certificate_hash": "8a017a9d35df3dccf222d5f8f84affcc11b30bf9"
+          }
+        },
+        {
+          "client_id": "852970505812-p7723k3slf62089s2oklf3bbvdekndmo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtvgpB0aZMW5iQjiOvedJiUjHavUqjvuE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852970505812-p7723k3slf62089s2oklf3bbvdekndmo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

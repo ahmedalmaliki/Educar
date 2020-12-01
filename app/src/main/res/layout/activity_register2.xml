@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Register">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/appName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:text="@string/app_name"
+        android:textSize="80sp"
+        android:textColor="#4D5454"/>
+    <EditText
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/fullName"
+        android:layout_below="@+id/appName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:hint="@string/full_name"
+        android:inputType="text"
+        android:ems="10"
+        android:textSize="24sp"
+        android:importantForAutofill="no" />
+    <EditText
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextUsername"
+        android:layout_below="@+id/fullName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:ems="10"
+        android:textSize="24sp"
+        android:importantForAutofill="no"
+        android:digits="@string/ASCII"
+        />
+
+
+
+    <EditText
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextEmail"
+        android:layout_below="@+id/editTextUsername"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:hint="@string/email_field"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:textSize="24sp"
+        android:importantForAutofill="no"
+        android:digits="@string/ASCII"/>
+    <EditText
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextPassword"
+        android:layout_below="@+id/editTextEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:hint="@string/password_field"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:textSize="24sp"
+        android:importantForAutofill="no"
+        android:digits="@string/ASCII"/>
+    <Spinner
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        android:id="@+id/ocupationSpiner"
+        android:layout_below="@id/editTextPassword"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/occupations"
+
+        />
+
+    <Button
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ocupationSpiner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/next"
+        android:id="@+id/goToPersonalInfo"/>
+
+    <Button
+        android:id="@+id/goToSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in"
+        android:layout_below="@+id/goToPersonalInfo"
+       android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:textColor="#4D5454"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        />
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
+
+
+
+</RelativeLayout>
