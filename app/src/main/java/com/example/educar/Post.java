@@ -1,16 +1,19 @@
 package com.example.educar;
 
+import android.util.Log;
+
+import java.util.List;
 import java.util.UUID;
 
 public class Post {
     private String caption;
     private String date;
-    private String image_url;
+    private List<String> image_url;
     private String post_id;
     private String tags;
     private String user_id;
 
-    public Post(String caption, String date, String image_url, String tags, String user_id) {
+    public Post(String caption, String date, List<String> image_url, String tags, String user_id) {
         this.caption = caption;
         this.date = date;
         this.image_url = image_url;
@@ -36,12 +39,13 @@ public class Post {
         this.date = date;
     }
 
-    public String getImage_url() {
+    public List<String> getImage_url() {
         return image_url;
     }
 
-    public void setImage_url(String image_url) {
+    public void setImage_url(List<String> image_url) {
         this.image_url = image_url;
+        Log.d("Success_links", String.valueOf(image_url));
     }
 
     public String getPost_id() {

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -14,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -41,16 +39,14 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static com.example.educar.PersonalInfo.REQUEST_IMAGE;
 
 public class PostWriting extends AppCompatActivity implements View.OnClickListener {
     private Toolbar toolbar , toolbarB;
@@ -59,7 +55,6 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
     private EditText textField;
     private FirebaseMethods firebaseMethods;
     private BottomAppBar bottomAppBar;
-    private Bitmap postImage;
     private List<Uri> mSelected;
     public static final int PICKER_REQUEST_CODE = 1;
     @Override
@@ -206,10 +201,8 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
                 moveToMainActivity();
                 break;
             case R.id.sendPost:
-                firebaseMethods.sendPostToDataBase(setUpInformation(), postImage);
-
+                firebaseMethods.sendPostToDataBase(setUpInformation(), mSelected);
                 checkIfSuccessfullyPosted();
-
                 break;
             case R.id.image_icon:
                 onImageIconClick();
@@ -256,10 +249,7 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 .thumbnailScale(0.85f)
                 .imageEngine(new Glide4Engine())
-                .theme(R.style.Matisse_Zhihu)
                 .forResult(PICKER_REQUEST_CODE);
-
-
     }
 
 
@@ -267,16 +257,13 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-            mSelected = Matisse.obtainResult(data);
 
-            // Display in the logs the selected items.
-            // Outputs something like:
-            // D/Matisse: mSelected: [
-            //    content://media/external/images/media/26263,
-            //    content://media/external/images/media/26264,
-            //    content://media/external/images/media/26261
-            // ]
-            Log.d("Matisse", "mSelected: " + mSelected);
+            mSelected = Matisse.obtainResult(data);
+            sendPost.setTextColor(getResources().getColor(R.color.colorPrimary));
+            sendPost.setEnabled(true);
+            Log.d("Matisse_Selection", "mSelected: " + mSelected);
+
+
         }
     }
 
@@ -310,7 +297,8 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
     private Post setUpInformation() {
         String caption = textField.getText().toString().trim();
         String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Post post = new Post(caption, getCurrentDate(), "",  "/", user_id);
+        List<String> emptyUrlsArray = new ArrayList<String>();
+        Post post = new Post(caption, getCurrentDate(), emptyUrlsArray ,  "/", user_id);
 
         return post;
     }

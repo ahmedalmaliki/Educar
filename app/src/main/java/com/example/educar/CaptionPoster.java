@@ -1,5 +1,7 @@
 package com.example.educar;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,13 +25,15 @@ public class CaptionPoster implements Runnable {
         while (!imageLink.changed()){
             synchronized (imageLink){
                 try {
+                    Log.d("Waiting_thread", "waiting");
                     imageLink.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
-        post.setImage_url(imageLink.getLink());
+        Log.d("NOTIFY_ALL", "notified");
+        post.setImage_url(imageLink.getLinks());
         reff = FirebaseDatabase.getInstance().getReference().child("Post");
         reff.push().setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

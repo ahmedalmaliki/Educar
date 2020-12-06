@@ -19,6 +19,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FirebaseMethods  {
@@ -26,9 +27,9 @@ public class FirebaseMethods  {
     private String  postId;
     private Post thePost;
 
-    public void sendPostToDataBase(Post post, Bitmap bitmap) {
+    public void sendPostToDataBase(Post post, List<Uri> mSelected) {
         ImageLink imageLink = new ImageLink();
-      Thread threadImage = new Thread(new ImagePoster(bitmap, post.getPost_id(), imageLink));
+      Thread threadImage = new Thread(new ImagePoster(mSelected, post.getPost_id(), imageLink));
       Thread threadCaption = new Thread(new CaptionPoster(post, imageLink));
       threadImage.start();
       threadCaption.start();
