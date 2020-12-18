@@ -150,6 +150,16 @@
                         android:id="@+id/image_icon"
                         android:layout_marginTop="2dp"
                         />
+                        <ImageButton
+                            android:src="@drawable/new_doc"
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/white"
+                            android:layout_weight="1"
+                            android:id="@+id/new_doc_icon"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginLeft="5dp"
+                            />
 
                     </LinearLayout>
                 </androidx.appcompat.widget.Toolbar>

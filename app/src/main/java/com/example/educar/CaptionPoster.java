@@ -13,28 +13,28 @@ import com.google.firebase.database.FirebaseDatabase;
 public class CaptionPoster implements Runnable {
     private DatabaseReference reff, reff1;
     private Post post;
-    private ImageLink imageLink;
+    private mediaLink mediaLink;
 
-    public CaptionPoster(Post post, ImageLink imageLink) {
+    public CaptionPoster(Post post, mediaLink mediaLink) {
         this.post = post;
-        this.imageLink = imageLink;
+        this.mediaLink = mediaLink;
     }
 
     @Override
     public void run() {
-        while (!imageLink.changed()){
-            synchronized (imageLink){
+        while (!mediaLink.changed()){
+            synchronized (mediaLink){
                 try {
                     Log.d("Waiting_thread", "waiting");
-                    imageLink.wait();
+                    mediaLink.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
         Log.d("NOTIFY_ALL", "notified");
-        post.setImage_url(imageLink.getLinks());
-        reff = FirebaseDatabase.getInstance().getReference().child("Post");
+        post.setMedia_urls(mediaLink.getLinks());
+        reff = FirebaseDatabase.getInstance().getReference().child("Posts");
         reff.push().setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

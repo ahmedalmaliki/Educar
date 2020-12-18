@@ -8,15 +8,15 @@ import java.util.UUID;
 public class Post {
     private String caption;
     private String date;
-    private List<String> image_url;
+    private List<String> media_urls;
     private String post_id;
     private String tags;
     private String user_id;
 
-    public Post(String caption, String date, List<String> image_url, String tags, String user_id) {
+    public Post(String caption, String date, List<String> media_urls, String tags, String user_id) {
         this.caption = caption;
         this.date = date;
-        this.image_url = image_url;
+        this.media_urls = media_urls;
         this.post_id =  UUID.randomUUID().toString();;
         this.tags = tags;
         this.user_id = user_id;
@@ -39,13 +39,13 @@ public class Post {
         this.date = date;
     }
 
-    public List<String> getImage_url() {
-        return image_url;
+    public List<String> getMedia_urls() {
+        return media_urls;
     }
 
-    public void setImage_url(List<String> image_url) {
-        this.image_url = image_url;
-        Log.d("Success_links", String.valueOf(image_url));
+    public void setMedia_urls(List<String> media_urls) {
+        this.media_urls = media_urls;
+        Log.d("Success_links", String.valueOf(media_urls));
     }
 
     public String getPost_id() {

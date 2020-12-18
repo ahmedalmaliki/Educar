@@ -5,7 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageLink {
+public class mediaLink {
     private List<String> links = new ArrayList<String>();;
     private boolean isChanged = false;
 

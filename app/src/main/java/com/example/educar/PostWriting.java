@@ -1,5 +1,6 @@
 package com.example.educar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Editable;
+
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
@@ -41,11 +43,13 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
+import com.zhihu.matisse.listener.OnSelectedListener;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class PostWriting extends AppCompatActivity implements View.OnClickListener {
@@ -56,6 +60,7 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
     private FirebaseMethods firebaseMethods;
     private BottomAppBar bottomAppBar;
     private List<Uri> mSelected;
+    private HashMap<String, Uri> uriHashMap = new HashMap<String, Uri>();;
     public static final int PICKER_REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,15 +107,13 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
                     // no text, hint is visible
                     hint = true;
                     textField.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-                    sendPost.setTextColor(getResources().getColor(R.color.light_grey));
-                    sendPost.setEnabled(false);
+
 
                 } else if(hint) {
                     // no hint, text is visible
                     hint = false;
                     textField.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-                    sendPost.setTextColor(getResources().getColor(R.color.colorPrimary));
-                    sendPost.setEnabled(true);
+                    enablePostButton();
                 }
 
 
@@ -122,14 +125,12 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
                     // no text, hint is visible
                     hint = true;
                     textField.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-                    sendPost.setTextColor(getResources().getColor(R.color.light_grey));
-                    sendPost.setEnabled(false);
+                    disablePostButton();
                 }else if(hint) {
                     // no hint, text is visible
                     hint = false;
                     textField.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-                    sendPost.setTextColor(getResources().getColor(R.color.colorPrimary));
-                    sendPost.setEnabled(true);
+                    enablePostButton();
 
                 }
             }
@@ -142,14 +143,12 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
                     // no text, hint is visible
                     hint = true;
                     textField.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-                    sendPost.setTextColor(getResources().getColor(R.color.light_grey));
-                    sendPost.setEnabled(false);
+                    disablePostButton();
                 } else if(hint) {
                     // no hint, text is visible
                     hint = false;
                     textField.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-                    sendPost.setTextColor(getResources().getColor(R.color.colorPrimary));
-                    sendPost.setEnabled(true);
+                   enablePostButton();
 
                 }
             }
@@ -201,8 +200,9 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
                 moveToMainActivity();
                 break;
             case R.id.sendPost:
-                firebaseMethods.sendPostToDataBase(setUpInformation(), mSelected);
+                firebaseMethods.sendPostToDataBase(setUpInformation(), uriHashMap);
                 checkIfSuccessfullyPosted();
+                //emptyUrisHashmap();
                 break;
             case R.id.image_icon:
                 onImageIconClick();
@@ -242,6 +242,7 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
                 .capture(true) //Do you have a photo function?
                 .captureStrategy(new CaptureStrategy(true,getPackageName() + ".provider"))
                 .countable(true)
+                .showSingleMediaType(false)
                 .maxSelectable(9)
                 .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                 .gridExpectedSize(
@@ -257,16 +258,36 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-
+            //emptyUrisHashmap();
             mSelected = Matisse.obtainResult(data);
-            sendPost.setTextColor(getResources().getColor(R.color.colorPrimary));
-            sendPost.setEnabled(true);
-            Log.d("Matisse_Selection", "mSelected: " + mSelected);
+            int counter = 0;
+            for (Uri uri: mSelected){
+                String tempUriString = uri.toString().substring(25, 30);
+
+                if (tempUriString.equals("video")){
+                    uriHashMap.put("video" + counter++, uri);
+                }else {
+                    uriHashMap.put("image"+ counter++, uri);
+                }
+            }
+
+            Log.d("TTTT", uriHashMap.toString());
+           enablePostButton();
 
 
         }
     }
-
+    private void enablePostButton(){
+        sendPost.setTextColor(getResources().getColor(R.color.colorPrimary));
+        sendPost.setEnabled(true);
+    }
+    private void disablePostButton(){
+        sendPost.setTextColor(getResources().getColor(R.color.light_grey));
+        sendPost.setEnabled(false);
+    }
+    /*private void emptyUrisHashmap(){
+        uriHashMap.clear();
+    }*/
     private void showSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(PostWriting.this);
         builder.setTitle(getString(R.string.dialog_permission_title));
