@@ -12,26 +12,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.security.KeyStore;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class mediaPoster implements Runnable{
+public class MediaPoster implements Runnable{
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private HashMap<String, Uri> selectedUris;
     private String postId;
-    private mediaLink mediaLink;
+    private MediaLink mediaLink;
     private int counter, numOfUploadedFiles;
 
 
 
-    public mediaPoster(HashMap<String, Uri> selectedUris, String postId, mediaLink mediaLink) {
+    public MediaPoster(HashMap<String, Uri> selectedUris, String postId, MediaLink mediaLink) {
         this.postId = postId;
         this.selectedUris = selectedUris;
         this.mediaLink = mediaLink;
@@ -79,8 +73,8 @@ public class mediaPoster implements Runnable{
     }
 
     private void sendImage(StorageReference storageRef, Uri uri) {
-        StorageReference profilesRef = storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/"+postId + "/" + "image"+"_"+counter++);
-        UploadTask uploadTask = profilesRef.putFile(uri);
+        StorageReference mediaRef = storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/"+postId + "/" + "image"+"_"+counter++);
+        UploadTask uploadTask = mediaRef.putFile(uri);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
@@ -110,8 +104,8 @@ public class mediaPoster implements Runnable{
     }
 
     private void sendVideo(StorageReference storageRef, Uri uri) {
-            StorageReference profilesRef = storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/"+postId + "/" + "video"+"_"+counter++);
-            UploadTask uploadTask = profilesRef.putFile(uri);
+            StorageReference mediaRef = storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/"+postId + "/" + "video"+"_"+counter++);
+            UploadTask uploadTask = mediaRef.putFile(uri);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {

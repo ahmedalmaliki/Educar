@@ -10,12 +10,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class CaptionPoster implements Runnable {
+public class MediaCaptionPoster implements Runnable {
     private DatabaseReference reff, reff1;
     private Post post;
-    private mediaLink mediaLink;
+    private MediaLink mediaLink;
 
-    public CaptionPoster(Post post, mediaLink mediaLink) {
+    public MediaCaptionPoster(Post post, MediaLink mediaLink) {
         this.post = post;
         this.mediaLink = mediaLink;
     }
@@ -33,7 +33,7 @@ public class CaptionPoster implements Runnable {
             }
         }
         Log.d("NOTIFY_ALL", "notified");
-        post.setMedia_urls(mediaLink.getLinks());
+        post.setUrls(mediaLink.getLinks());
         reff = FirebaseDatabase.getInstance().getReference().child("Posts");
         reff.push().setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
