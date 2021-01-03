@@ -16,7 +16,6 @@ import android.provider.Settings;
 import android.text.Editable;
 
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.DragEvent;
 import android.view.Menu;
@@ -238,6 +237,7 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
+                            new_doc_icon.setBackground(getResources().getDrawable(R.drawable.roundedcorners));
                             showDocPicker();
 
 
@@ -281,6 +281,7 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
+                            image_icon.setBackground(getResources().getDrawable(R.drawable.roundedcorners));
 
                             showImagePickerOptions();
 
@@ -320,29 +321,39 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-            //emptyUrisHashmap();
-            mSelected = Matisse.obtainResult(data);
-            typeOfAttachment = 1;
-            int counter = 0;
-            for (Uri uri: mSelected){
-                String tempUriString = uri.toString().substring(25, 30);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICKER_REQUEST_CODE ) {
+                //emptyUrisHashmap();
+                removeRoundGreyCircleAroundButton();
+                mSelected = Matisse.obtainResult(data);
+                typeOfAttachment = 1;
+                int counter = 0;
+                for (Uri uri : mSelected) {
+                    String tempUriString = uri.toString().substring(25, 30);
 
-                if (tempUriString.equals("video")){
-                    mediaUriHashMap.put("video" + counter++, uri);
-                }else {
-                    mediaUriHashMap.put("image"+ counter++, uri);
+                    if (tempUriString.equals("video")) {
+                        mediaUriHashMap.put("video" + counter++, uri);
+                    } else {
+                        mediaUriHashMap.put("image" + counter++, uri);
+                    }
                 }
+            } else if (requestCode == PICK_DOC ) {
+                docUri = data.getData();
+                documentFile = DocumentFile.fromSingleUri(this, docUri);
+                typeOfAttachment = 2;
             }
-
+            enablePostButton();
         }
-        else if (requestCode == PICK_DOC && resultCode == RESULT_OK){
-            docUri  = data.getData();
-            documentFile = DocumentFile.fromSingleUri(this, docUri);
-            typeOfAttachment = 2;
+        else {
+            removeRoundGreyCircleAroundButton();
         }
-        enablePostButton();
     }
+
+    private void removeRoundGreyCircleAroundButton() {
+        image_icon.setBackground(getResources().getDrawable(R.drawable.roundedcorners_white));
+        new_doc_icon.setBackground(getResources().getDrawable(R.drawable.roundedcorners_white));
+    }
+
     private void enablePostButton(){
         sendPost.setTextColor(getResources().getColor(R.color.colorPrimary));
         sendPost.setEnabled(true);
@@ -412,6 +423,8 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
         }
         return super.dispatchTouchEvent(event);
     }
+
+    //Returns User To Main Page
     private void moveToMainActivity() {
         Intent intent = new Intent(PostWriting.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
