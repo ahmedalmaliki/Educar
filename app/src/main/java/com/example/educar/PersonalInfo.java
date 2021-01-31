@@ -70,6 +70,7 @@ public class PersonalInfo extends AppCompatActivity implements View.OnClickListe
     private ImageView profileImage;
     private Bitmap profileBitmap;
     private Spinner gendersSpinner;
+    private FirebaseMethods firebaseMethods;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     public static final int REQUEST_IMAGE = 100;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -353,41 +354,26 @@ public class PersonalInfo extends AppCompatActivity implements View.OnClickListe
     }
 
     private void uploadProfileImage() {
-        StorageReference storageRef = storage.getReference();
-        StorageReference profilesRef = storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/profilePicture/" + "profile.jpg");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        if (profileBitmap == null) {
-            sendDefaultProfileImage(baos, profilesRef);
-
+        Uri default_female_path = Uri.parse("android.resource://com.example.educar/" + R.drawable.default_female);
+        Uri default_nonBinary_path = Uri.parse("android.resource://com.example.educar/" + R.drawable.default_nonbinary);
+        Uri default_male_path = Uri.parse("android.resource://com.example.educar/" + R.drawable.default_male);
+        Bitmap dMale = null;
+        Bitmap dFemale = null;
+        Bitmap dNonBinary = null;
+        try {
+            dMale = MediaStore.Images.Media.getBitmap(this.getContentResolver(), default_male_path);
+            dFemale = MediaStore.Images.Media.getBitmap(this.getContentResolver(), default_female_path);
+            dNonBinary = MediaStore.Images.Media.getBitmap(this.getContentResolver(), default_nonBinary_path);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else {
-            sendSelectedProfileImage(profilesRef, baos);
-        }
-
-
-
+        firebaseMethods = new FirebaseMethods();
+        firebaseMethods.uploadProfile(profileBitmap, gendersSpinner, dMale, dFemale, dNonBinary);
 
     }
 
-    private void sendSelectedProfileImage(StorageReference profilesRef, ByteArrayOutputStream baos) {
-        profileBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
-        byte[] data = baos.toByteArray();
-        UploadTask uploadTask = profilesRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-            }
-        });
-    }
 
     private void sendDefaultProfileImage( ByteArrayOutputStream baos,  StorageReference profilesRef) {
         switch (gendersSpinner.getSelectedItemPosition()) {

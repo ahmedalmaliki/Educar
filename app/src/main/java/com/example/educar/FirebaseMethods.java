@@ -1,6 +1,8 @@
 package com.example.educar;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.widget.Spinner;
 
 import java.util.HashMap;
 
@@ -30,10 +32,12 @@ public class FirebaseMethods  {
         Thread threadCaption = new Thread(new CaptionOnlyPoster(post));
         threadCaption.start();
     }
+    public void uploadProfile(Bitmap profileBitmap, Spinner gendersSpinner, Bitmap dMale, Bitmap dFemale, Bitmap dNonBinary){
 
+        Thread threadProfileImage = new Thread(new profileImagePoster(profileBitmap, gendersSpinner, dMale, dFemale, dNonBinary));
 
-
-
+        threadProfileImage.start();
+    }
 
 
 }

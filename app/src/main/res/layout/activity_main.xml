@@ -30,18 +30,33 @@
         android:layout_marginTop="75dp"
 
         >
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2"
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                app:civ_border_color="#FFFFFF"
+                android:layout_weight="0.5"
+                android:layout_marginTop="10dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/outlinedTextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_weight="1.5">
+
 
             <com.google.android.material.textfield.TextInputEditText
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:layout_marginLeft="60dp"
+
                 android:layout_marginBottom="5dp"
                 android:focusable="false"
                 android:id="@+id/postField"
@@ -50,6 +65,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>
     <Button
         android:id="@+id/signOut"

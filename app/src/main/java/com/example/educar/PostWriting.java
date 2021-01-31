@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.telephony.mbms.MbmsErrors;
 import android.text.Editable;
 
 import android.text.TextWatcher;
@@ -26,10 +27,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.documentfile.provider.DocumentFile;
 
+import com.felipecsl.asymmetricgridview.library.Utils;
+import com.felipecsl.asymmetricgridview.library.model.AsymmetricItem;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.karumi.dexter.Dexter;
@@ -57,6 +63,7 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
     private BottomAppBar bottomAppBar;
     private Short typeOfAttachment = 0;
     private List<Uri> mSelected;
+    private AsymmetricGridView listView;
     //Info of the attached document
     private Uri docUri;
     private DocumentFile documentFile;
@@ -169,6 +176,15 @@ public class PostWriting extends AppCompatActivity implements View.OnClickListen
         });
 
         TouchDelegateSettings();
+
+
+    }
+
+    private void InitializeGridView() {
+        listView.setRequestedColumnWidth(Utils.dpToPx(this, 120));
+        final List<AsymmetricItem> items = new ArrayList<>();
+
+
     }
 
     private void TouchDelegateSettings() {

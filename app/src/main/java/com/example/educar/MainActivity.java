@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DatabaseReference reference;
     private Toolbar toolbar;
     private TextInputEditText postField;
-    private String fullname, userID;
+    private String  userID, fullname, gender;
+    private ImageView profileImage;
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
 
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         toolbar = findViewById(R.id.headBar);
         toolbar.setTitleTextAppearance(this, R.style.TitleAppearance);
         setSupportActionBar(toolbar);
@@ -65,27 +65,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         reference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
         postField = findViewById(R.id.postField);
-
+        profileImage = findViewById(R.id.profile_image);
         signOut.setOnClickListener(this);
         postField.setOnClickListener(this);
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User userProfile = snapshot.getValue(User.class);
                 fullname = userProfile.fullName;
+                gender = userProfile.gender;
+                Log.d("GENDER_TE", gender);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d("FIRST_TEST", "F");
             }
         });
-
+        populateProfileImageView();
         terminationAfterSignout();
+
     }
 
-                    @Override
+    private void populateProfileImageView() {
+
+    }
+
+    private void loadGenericProfilePicture() {
+        switch (gender){
+            case "Male":
+                profileImage.setImageResource(R.drawable.default_male);
+                break;
+            case "Female":
+                profileImage.setImageResource(R.drawable.default_female);
+                break;
+            case "Other":
+                profileImage.setImageResource(R.drawable.default_nonbinary);
+                break;
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.main_menu, menu);

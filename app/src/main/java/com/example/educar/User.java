@@ -3,7 +3,7 @@ package com.example.educar;
 import android.graphics.Bitmap;
 
 public class User {
-    public String fullName, email, occupation, username, school, age, bio, gender;
+    public String fullName, email, occupation, username, school, age, bio, gender, profileImageLink;
 
 
     public User(String fullName, String email, String occupation, String username, String school, String age, String bio,String gender) {
@@ -17,6 +17,11 @@ public class User {
         this.gender = gender;
 
     }
+
+    public void setProfileImageLink(String profileImageLink) {
+        this.profileImageLink = profileImageLink;
+    }
+
     public User() {
 
     }
