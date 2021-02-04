@@ -11,7 +11,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class DocCaptionPoster implements Runnable{
-    private DatabaseReference reff, reff1;
     private Post post;
     private DocLink docLink;
     private String docName;
@@ -35,16 +34,19 @@ public class DocCaptionPoster implements Runnable{
         Log.d("NOTIFY_ALL", "notified");
         post.setUrls(docLink.getLink());
         post.setFile_name(docName);
-        reff = FirebaseDatabase.getInstance().getReference().child("Posts");
-        reff.push().setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseDatabase.getInstance().getReference("Posts").child(post.getPost_id()).setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                //Nothing for now
+
             }
         });
 
-        reff1 = FirebaseDatabase.getInstance().getReference("UserPosts").child(FirebaseAuth.getInstance().
-                getCurrentUser().getUid());
-        reff1.push().setValue(post);
+
+        FirebaseDatabase.getInstance().getReference("UserPosts").child(post.getPost_id()).setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
     }
 }

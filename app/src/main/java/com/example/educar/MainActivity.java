@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextInputEditText postField;
     private String  userID, fullname, gender;
     private ImageView profileImage;
+    private Bitmap profileBitmap;
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
 
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 fullname = userProfile.fullName;
                 gender = userProfile.gender;
                 Log.d("GENDER_TE", gender);
-
+               // populateProfileImageView();
             }
 
             @Override
@@ -84,12 +86,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("FIRST_TEST", "F");
             }
         });
-        populateProfileImageView();
+        //populateProfileImageView();
         terminationAfterSignout();
 
     }
 
+
     private void populateProfileImageView() {
+        ProfileImageLink profileImageLink = new ProfileImageLink();
+        while (!profileImageLink.changed()){
+            synchronized (profileImageLink){
+                try {
+                   //loadGenericProfilePictbure();
+                    profileImageLink.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
 

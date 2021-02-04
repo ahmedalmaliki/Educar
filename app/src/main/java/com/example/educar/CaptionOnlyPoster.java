@@ -9,7 +9,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class CaptionOnlyPoster implements Runnable{
-    private DatabaseReference reff, reff1;
     private Post post;
 
     public CaptionOnlyPoster( Post post) {
@@ -19,16 +18,21 @@ public class CaptionOnlyPoster implements Runnable{
 
     @Override
     public void run() {
-        reff = FirebaseDatabase.getInstance().getReference().child("Posts");
-        reff.push().setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseDatabase.getInstance().getReference("Posts").child(post.getPost_id()).setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                //Nothing for now
+
             }
         });
 
-        reff1 = FirebaseDatabase.getInstance().getReference("UserPosts").child(FirebaseAuth.getInstance().
-                getCurrentUser().getUid());
-        reff1.push().setValue(post);
+
+        FirebaseDatabase.getInstance().getReference("UserPosts").child(post.getPost_id()).setValue(post).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
+
+
     }
 }

@@ -7,6 +7,7 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -26,7 +27,6 @@ public class profileImagePoster implements Runnable {
     private Bitmap dMale;
     private Bitmap dFemale;
     private Bitmap dNonBinary;
-    private DatabaseReference reff;
 
     public profileImagePoster( Bitmap profileBitmap, Spinner genderSpinner, Bitmap dMale, Bitmap dFemale, Bitmap dNonBinary) {
         this.profileBitmap = profileBitmap;
@@ -69,9 +69,14 @@ public class profileImagePoster implements Runnable {
                 task.addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        reff = FirebaseDatabase.getInstance().getReference("UsersProfileImages").child(FirebaseAuth.getInstance().
-                                getCurrentUser().getUid());
-                        reff.push().setValue(uri.toString());
+                        FirebaseDatabase.getInstance().getReference("UsersProfileImages").child(FirebaseAuth.getInstance().
+                                getCurrentUser().getUid()).setValue(uri.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                            }
+                        });
+
                     }
                 });
 
@@ -107,8 +112,19 @@ public class profileImagePoster implements Runnable {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                task.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        FirebaseDatabase.getInstance().getReference("UsersProfileImages").child(FirebaseAuth.getInstance().
+                                getCurrentUser().getUid()).setValue(uri.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
 
-
+                            }
+                        });
+                    }
+                });
             }
         });
 
