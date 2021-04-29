@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextInputEditText postField;
     private String  userID, fullname, gender;
     private ImageView profileImage;
-    private Bitmap profileBitmap;
+    private FirebaseMethods firebaseMethods;
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
 
@@ -68,58 +68,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userID = user.getUid();
         postField = findViewById(R.id.postField);
         profileImage = findViewById(R.id.profile_image);
+        firebaseMethods = new FirebaseMethods();
+
         signOut.setOnClickListener(this);
         postField.setOnClickListener(this);
-
-        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User userProfile = snapshot.getValue(User.class);
-                fullname = userProfile.fullName;
-                gender = userProfile.gender;
-                Log.d("GENDER_TE", gender);
-               // populateProfileImageView();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("FIRST_TEST", "F");
-            }
-        });
-        //populateProfileImageView();
+        populateProfileImage();
         terminationAfterSignout();
 
     }
 
 
-    private void populateProfileImageView() {
-        ProfileImageLink profileImageLink = new ProfileImageLink();
-        while (!profileImageLink.changed()){
-            synchronized (profileImageLink){
-                try {
-                   //loadGenericProfilePictbure();
-                    profileImageLink.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
 
-    }
-
-    private void loadGenericProfilePicture() {
-        switch (gender){
-            case "Male":
-                profileImage.setImageResource(R.drawable.default_male);
-                break;
-            case "Female":
-                profileImage.setImageResource(R.drawable.default_female);
-                break;
-            case "Other":
-                profileImage.setImageResource(R.drawable.default_nonbinary);
-                break;
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
 
+    }
+
+    private void populateProfileImage() {
+        firebaseMethods.determineGender(profileImage);
     }
 
     private void MoveToPostWritingActivity() {

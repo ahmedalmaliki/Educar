@@ -2,7 +2,7 @@ package com.example.educar;
 
 public class ProfileImageLink {
     private String Link;
-    private boolean isChanged = false;
+    private boolean isChanged = true;
 
     public String getLink() {
         return Link;

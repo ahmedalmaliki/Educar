@@ -2,6 +2,8 @@ package com.example.educar;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.util.HashMap;
@@ -37,6 +39,15 @@ public class FirebaseMethods  {
         Thread threadProfileImage = new Thread(new profileImagePoster(profileBitmap, gendersSpinner, dMale, dFemale, dNonBinary));
 
         threadProfileImage.start();
+    }
+
+    public void determineGender(ImageView profileImage){
+
+        GENDER gender = new GENDER();
+        Thread threadDetermineGender = new Thread(new DetermineGender(gender));
+        Thread threadPopulateProfileImageView = new Thread(new PopulateProfileImageView(profileImage, gender));
+        threadDetermineGender.start();
+        threadPopulateProfileImageView.start();
     }
 
 
